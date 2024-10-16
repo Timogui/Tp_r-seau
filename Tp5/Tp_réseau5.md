@@ -113,7 +113,7 @@ network:
 ```
 # sudo ss -lnpt | grep 22
 LISTEN 0        128         0.0.0.0:22          0.0.0.0:*
-LISTEN 0        128         [;;]:2          [::]:*
+LISTEN 0        128         [;;]:22          [::]:*
 ```
 
 ### ☀️ Sur routeur.tp5.b1, vérifier que ce port est bien ouvert
