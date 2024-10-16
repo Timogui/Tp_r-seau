@@ -111,9 +111,9 @@ network:
 
 ### ☀️ Sur routeur.tp5.b1, déterminer sur quel port écoute le serveur SSH
 ```
-# sudo ss -tuln | grep 22
-tcp LISTEN 0        128         0.0.0.0:22          0.0.0.0:*
-tcp LISTEN 0        128         [;;]:2          [::]:*
+# sudo ss -lnpt | grep 22
+LISTEN 0        128         0.0.0.0:22          0.0.0.0:*
+LISTEN 0        128         [;;]:2          [::]:*
 ```
 
 ### ☀️ Sur routeur.tp5.b1, vérifier que ce port est bien ouvert
@@ -146,7 +146,7 @@ $ sudo hostname set-hostname client3
 $ hostname
 client3
 $ ip a
-inet 10.5.1.137/24 scope global enp0s3
+inet 10.5.1.138/24 scope global enp0s3
 $ ping www.ynov.com
 PING www.ynov.com (104.26.11.233) 56(84) bytes of data.
 64 bytes from 104.26.11.233: icmp_seq=1 ttl=53 time=16,7 ms
@@ -156,18 +156,22 @@ PING www.ynov.com (104.26.11.233) 56(84) bytes of data.
 ### ☀️ Consultez le bail DHCP qui a été créé pour notre client
 ```
 # cat /var/lib/dhcpd/dhcpd.leases
-lease 10.5.1.137 {
+lease 10.5.1.138 {
     starts 2 2024/10/15 14:44:34;
     ends 2 2024/10/15 14:44:55;
     tstp 2 2024/10/15 14:44:55;
     cltt 2 2024/10/15 14:44:34;
-    binding state free;
-    hardware ethernet 08:00:27:63:e2:bc;
+    binding state active;
+    next binding state free;
+    rewind binding state free;
+    hardware ethernet 08:00:27:0c:8f:6e;
+    uid "\001\010\000'\014\217n";
+    client-hostname "timo-VirtualBox";
 }
 ```
 
 ### ☀️ Confirmez qu'il s'agit bien de la bonne adresse MAC
 ```
 # ip a
-link/ether 00:27:63:e2:bc:
+link/ether 08:00:27:0c:8f:6e:
 ```
