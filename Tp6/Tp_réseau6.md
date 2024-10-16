@@ -48,20 +48,98 @@ PING www.ynov.com (172.67.74.226) 56(84) bytes of data.
 
 ### ☀️ Déterminer sur quel port écoute le serveur NGINX
 ```
-
+# ss -lnpt | grep 80
+LISTEN 0        511         0.0.0.0:80          0.0.0.0:*
+LISTEN 0        511         [;;]:80          [::]:*
 ```
 
 ### ☀️ Ouvrir ce port dans le firewall
 ```
-
+# firewall-cmd --permanent --add-port=80/tcp
+# firewall-cmd --reload
 ```
 
 ### ☀️ Visitez le site web !
 ```
+$ curl http://10.6.2.11
+<!doctype html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <title>HTTP Server Test Page powered by: Rocky Linux</title>
+        ...
+```
 
+## 2. Serveur DNS
+
+### ☀️ Déterminer sur quel(s) port(s) écoute le service BIND9
+```
+ss -lnpt | grep :53
+LISTEN 0    10      127.0.0.1:53        0.0.0.0:*   users:(("named",pid=1891,fd=22))
+```
+
+### ☀️ Ouvrir ce(s) port(s) dans le firewall
+```
+sudo firewall-cmd --permanent --add-port=53/tcp
+sudo firewall-cmd --permanent --add-port=53/udp
+sudo firewall-cmd --reload
+```
+
+### ☀️ Effectuez des requêtes DNS manuellement depuis le serveur DNS lui-même dans un premier temps
+```
+# dig web.tp6.b1 @10.6.2.12
+; <<>> DiG 9.16.23-RH <<>> web.tp6.b1 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+
+# dig dns.tp6.b1 @10.6.2.12
+; <<>> DiG 9.16.23-RH <<>> dns.tp6.b1 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+
+# dig ynov.com @10.6.2.12
+; <<>> DiG 9.16.23-RH <<>> ynov.com @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+
+# dig -x 10.6.2.11 @10.6.2.12
+; <<>> DiG 9.16.23-RH <<>> 10.6.2.11 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+
+# dig 10.6.2.12 @10.6.2.12
+; <<>> DiG 9.16.23-RH <<>> 10.6.2.12 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+```
+
+### ☀️ Effectuez une requête DNS manuellement depuis client1.tp6.b1
+```
+$ dig web.tp6.b1 @10.6.2.12
+; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> web.tp6.b1 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+(flemme d'écrire le reste dsl)
+```
+
+### ☀️ Capturez une requête DNS et la réponse de votre serveur
+```
+$ sudo tcpdump -w dns_capture.pcap -i emp0s3
+tcpdump: listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 26214
+4 bytes
+23 packets captured
+23 packets received by filter
+0 packets dropped by kernel
 ```
 
 ### ☀️ Créez un nouveau client client2.tp6.b1 vitefé
 ```
-
+$ cat /etc/resolv.conf
+nameserver 10.6.2.12
 ```
