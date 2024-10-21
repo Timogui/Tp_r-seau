@@ -130,7 +130,7 @@ $ dig web.tp6.b1 @10.6.2.12
 
 ### ☀️ Capturez une requête DNS et la réponse de votre serveur
 ```
-$ sudo tcpdump -w dns_capture.pcap -i emp0s3
+$ sudo tcpdump -w dns_capture.pcap -i enp0s3
 tcpdump: listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 26214
 4 bytes
 23 packets captured
