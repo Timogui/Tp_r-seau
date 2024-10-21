@@ -129,14 +129,7 @@ $ dig web.tp6.b1 @10.6.2.12
 ```
 
 ### ☀️ Capturez une requête DNS et la réponse de votre serveur
-```
-$ sudo tcpdump -w dns_capture.pcap -i enp0s3
-tcpdump: listening on enp0s3, link-type EN10MB (Ethernet), snapshot length 26214
-4 bytes
-23 packets captured
-23 packets received by filter
-0 packets dropped by kernel
-```
+[capture](dns_capture.pcap)
 
 ### ☀️ Créez un nouveau client client2.tp6.b1 vitefé
 ```
